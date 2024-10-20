@@ -51,7 +51,7 @@ Route::prefix('api/v1')->group(function () {
         });
     });
 
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware(['auth:sanctum', 'association'])->group(function () {
         Route::apiResource('projects', ProjectController::class);
 
     });
