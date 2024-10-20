@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('campaign_id')->constrained()->onDelete('cascade');
+            $table->foreignId('project_id')->constrained()->onDelete('cascade');
+            $table->string('voter_email');
+            $table->decimal('amount', 10, 2);
             $table->timestamps();
         });
     }

@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\Api\AdminAuthController;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AssociationController;
+use App\Http\Controllers\Api\Auth\AdminAuthController;
 use App\Http\Controllers\Api\Auth\AssociationAuthController;
+use App\Http\Controllers\Api\Auth\CompanyAuthController;
 use App\Http\Controllers\Api\CampaignController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\ProjectController;
@@ -36,13 +37,22 @@ Route::prefix('api/v1')->group(function () {
 
     });
     Route::post('/companies/register', [CompanyController::class, 'register']);
+    Route::post('/campaigns/{campaign}/vote', [CampaignController::class, 'vote']);
+
+    route::prefix('companies')->group(function () {
+        Route::post('/register', [CompanyAuthController::class, 'register']);
+        Route::post('/login', [CompanyAuthController::class, 'login']);
+        Route::middleware(['auth:sanctum', 'company'])->group(function () {
+            Route::post('/logout', [CompanyAuthController::class, 'logout']);
+            Route::get('/me', [CompanyAuthController::class, 'me']);
+        Route::put('/companies/preferences', [CompanyController::class, 'updatePreferences']);
+        Route::post('/campaigns', [CampaignController::class, 'create']);
+        Route::get('/campaigns/{campaign}/results', [CampaignController::class, 'results']);
+        });
+    });
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('projects', ProjectController::class);
-        Route::put('/companies/preferences', [CompanyController::class, 'updatePreferences']);
-        Route::post('/campaigns', [CampaignController::class, 'create']);
-        Route::post('/campaigns/{campaign}/vote', [CampaignController::class, 'vote']);
-        Route::get('/campaigns/{campaign}/results', [CampaignController::class, 'results']);
 
     });
 

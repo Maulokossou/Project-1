@@ -15,6 +15,15 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->text('description');
+            $table->decimal('goal_amount', 10, 2);
+            $table->decimal('current_amount', 10, 2)->default(0);
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->string('status');
+            $table->foreignId('association_id')->constrained()->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
