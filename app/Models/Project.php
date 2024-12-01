@@ -17,7 +17,9 @@ class Project extends Model
         'start_date',
         'end_date',
         'status',
-        'association_id'
+        "image_url",
+        'video_url',
+        'association_id',
     ];
 
     protected $casts = [

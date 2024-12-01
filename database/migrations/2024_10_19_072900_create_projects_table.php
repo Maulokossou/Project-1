@@ -22,6 +22,8 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->string('status');
+            $table->string('image_url')->nullable();
+            $table->string('video_url')->nullable();
             $table->foreignId('association_id')->constrained()->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
